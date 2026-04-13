@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canje de Codigo - Crugus AI</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        padding: 40px;
+        width: 450px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+      .logo {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo h1 {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, #ffd700, #ff9500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .logo p {
+        color: #888;
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+
+      .step {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .step-num {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: 600;
+        margin-right: 10px;
+      }
+      .step h3 {
+        display: inline;
+        color: #667eea;
+      }
+      .step p {
+        color: #888;
+        margin-top: 10px;
+        font-size: 0.9rem;
+      }
+
+      .form-group {
+        margin: 25px 0;
+      }
+      .form-group label {
+        display: block;
+        color: #888;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: white;
+        font-size: 1.3rem;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: #ffd700;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #ffd700, #ff9500);
+        border: none;
+        border-radius: 10px;
+        color: #000;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .btn:hover {
+        transform: scale(1.02);
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .error {
+        background: rgba(255, 100, 100, 0.2);
+        border: 1px solid rgba(255, 100, 100, 0.4);
+        color: #ff6b6b;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        text-align: center;
+        display: none;
+      }
+      .success {
+        background: rgba(0, 255, 136, 0.2);
+        border: 1px solid rgba(0, 255, 136, 0.4);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        text-align: center;
+        display: none;
+      }
+      .success h3 {
+        color: #00ff88;
+        margin-bottom: 10px;
+      }
+      .success p {
+        color: #888;
+      }
+      .success .plan-name {
+        font-size: 2rem;
+        color: #ffd700;
+        font-weight: 700;
+      }
+
+      .info-box {
+        background: rgba(102, 126, 234, 0.1);
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+      }
+      .info-box p {
+        color: #888;
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+      }
+      .info-box p:last-child {
+        margin-bottom: 0;
+      }
+      .info-box i {
+        color: #667eea;
+        margin-right: 8px;
+      }
+
+      .back-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .back-link a {
+        color: #667eea;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .back-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <h1><i class="fas fa-ticket-alt"></i> Canjear Codigo</h1>
+        <p>Activa tu plan Fultra</p>
+      </div>
+
+      <div class="step">
+        <span class="step-num">1</span>
+        <h3>Ingresa tu usuario</h3>
+        <p>El usuario de tu cuenta Crugus AI</p>
+      </div>
+
+      <div class="step">
+        <span class="step-num">2</span>
+        <h3>Ingresa el codigo</h3>
+        <p>5 numeros + 3 letras en cualquier posicion</p>
+      </div>
+
+      <div class="error" id="error"></div>
+      <div class="success" id="success">
+        <h3><i class="fas fa-check-circle"></i> Codigo Activado!</h3>
+        <div class="plan-name">FUTRA</div>
+        <p>Ya puedes usar todas las funcionalidades</p>
+      </div>
+
+      <form id="redeemForm" onsubmit="handleRedeem(event)">
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="username" placeholder="Tu usuario" required />
+        </div>
+        <div class="form-group">
+          <label>Codigo de activacion</label>
+          <input
+            type="text"
+            id="code"
+            placeholder="12345ABC"
+            maxlength="8"
+            required
+          />
+        </div>
+        <button type="submit" class="btn" id="submitBtn">
+          <i class="fas fa-gift"></i> CANJEAR CODIGO
+        </button>
+      </form>
+
+      <div class="info-box">
+        <p>
+          <i class="fas fa-info-circle"></i> El codigo solo se puede usar UNA
+          vez
+        </p>
+        <p>
+          <i class="fas fa-clock"></i> Despues de usar, expira inmediatamente
+        </p>
+        <p><i class="fas fa-fire"></i> Activa el plan FULTRA completo</p>
+      </div>
+
+      <div class="back-link">
+        <a href="/"><i class="fas fa-arrow-left"></i> Volver a Crugus AI</a>
+      </div>
+    </div>
+
+    <script>
+      function showError(msg) {
+        const el = document.getElementById('error')
+        el.textContent = msg
+        el.style.display = 'block'
+      }
+
+      function showSuccess() {
+        document.getElementById('error').style.display = 'none'
+        document.getElementById('success').style.display = 'block'
+        document.getElementById('redeemForm').style.display = 'none'
+      }
+
+      async function handleRedeem(e) {
+        e.preventDefault()
+
+        const username = document
+          .getElementById('username')
+          .value.trim()
+          .toLowerCase()
+        const code = document.getElementById('code').value.trim().toUpperCase()
+
+        if (!username || !code) {
+          showError('Completa todos los campos')
+          return
+        }
+
+        const btn = document.getElementById('submitBtn')
+        btn.disabled = true
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...'
+
+        try {
+          const res = await fetch('/api/redeem', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, code }),
+          })
+          const data = await res.json()
+
+          if (data.success) {
+            showSuccess()
+          } else {
+            showError(data.error || 'Codigo invalido')
+          }
+        } catch (e) {
+          showError('Error de conexion')
+        }
+
+        btn.disabled = false
+        btn.innerHTML = '<i class="fas fa-gift"></i> CANJEAR CODIGO'
+      }
+    </script>
+  </body>
+</html>

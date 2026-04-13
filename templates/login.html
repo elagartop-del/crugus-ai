@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Crugus AI</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .login-container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 40px;
+        width: 400px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+      .logo {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo h1 {
+        font-size: 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .logo p {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+      .tabs {
+        display: flex;
+        margin-bottom: 25px;
+      }
+      .tab {
+        flex: 1;
+        padding: 12px;
+        text-align: center;
+        color: #666;
+        cursor: pointer;
+        border-bottom: 2px solid #333;
+        transition: all 0.3s;
+      }
+      .tab.active {
+        color: #667eea;
+        border-color: #667eea;
+      }
+      .tab:hover {
+        color: #667eea;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        color: #888;
+        margin-bottom: 8px;
+        font-size: 0.85rem;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: white;
+        font-size: 1rem;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+      .btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .btn:hover {
+        transform: scale(1.02);
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .error {
+        background: rgba(255, 100, 100, 0.2);
+        border: 1px solid rgba(255, 100, 100, 0.4);
+        color: #ff6b6b;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 0.85rem;
+        display: none;
+      }
+      .success {
+        background: rgba(0, 255, 136, 0.2);
+        border: 1px solid rgba(0, 255, 136, 0.4);
+        color: #00ff88;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 0.85rem;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="logo">
+        <h1>Crugus AI Studio</h1>
+        <p>Sistema de Cuentas y Planes</p>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">
+          Iniciar Sesion
+        </div>
+        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+      </div>
+
+      <div id="error" class="error"></div>
+      <div id="success" class="success"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="username" placeholder="Tu usuario" required />
+        </div>
+        <div class="form-group">
+          <label>Contrasena</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Tu contrasena"
+            required
+          />
+        </div>
+        <button type="submit" class="btn" id="loginBtn">
+          <i class="fas fa-sign-in-alt"></i> Iniciar Sesion
+        </button>
+      </form>
+
+      <form
+        id="registerForm"
+        style="display: none"
+        onsubmit="handleRegister(event)"
+      >
+        <div class="form-group">
+          <label>Usuario (min 3 caracteres)</label>
+          <input
+            type="text"
+            id="regUsername"
+            placeholder="Nuevo usuario"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Contrasena (min 4 caracteres)</label>
+          <input
+            type="password"
+            id="regPassword"
+            placeholder="Nueva contrasena"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Confirmar Contrasena</label>
+          <input
+            type="password"
+            id="regPassword2"
+            placeholder="Repite contrasena"
+            required
+          />
+        </div>
+        <button type="submit" class="btn" id="registerBtn">
+          <i class="fas fa-user-plus"></i> Crear Cuenta
+        </button>
+      </form>
+    </div>
+
+    <script>
+      let currentTab = 'login'
+
+      function switchTab(tab) {
+        currentTab = tab
+        document
+          .querySelectorAll('.tab')
+          .forEach((t) => t.classList.remove('active'))
+        event.target.classList.add('active')
+        document.getElementById('loginForm').style.display =
+          tab === 'login' ? 'block' : 'none'
+        document.getElementById('registerForm').style.display =
+          tab === 'register' ? 'block' : 'none'
+        document.getElementById('error').style.display = 'none'
+        document.getElementById('success').style.display = 'none'
+      }
+
+      function showError(msg) {
+        const el = document.getElementById('error')
+        el.textContent = msg
+        el.style.display = 'block'
+      }
+
+      function showSuccess(msg) {
+        const el = document.getElementById('success')
+        el.textContent = msg
+        el.style.display = 'block'
+      }
+
+      async function handleLogin(e) {
+        e.preventDefault()
+        const btn = document.getElementById('loginBtn')
+        btn.disabled = true
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...'
+
+        const username = document
+          .getElementById('username')
+          .value.trim()
+          .toLowerCase()
+        const password = document.getElementById('password').value
+
+        try {
+          const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          })
+          const data = await res.json()
+
+          if (data.success) {
+            localStorage.setItem('crugus_user', JSON.stringify(data))
+            showSuccess('Bienvenido! Redirigiendo...')
+            setTimeout(() => (window.location.href = '/'), 1000)
+          } else {
+            showError(data.error || 'Error al iniciar sesion')
+          }
+        } catch (e) {
+          showError('Error de conexion')
+        }
+
+        btn.disabled = false
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesion'
+      }
+
+      async function handleRegister(e) {
+        e.preventDefault()
+        const btn = document.getElementById('registerBtn')
+        btn.disabled = true
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...'
+
+        const username = document
+          .getElementById('regUsername')
+          .value.trim()
+          .toLowerCase()
+        const password = document.getElementById('regPassword').value
+        const password2 = document.getElementById('regPassword2').value
+
+        if (password !== password2) {
+          showError('Las contrasenas no coinciden')
+          btn.disabled = false
+          btn.innerHTML = '<i class="fas fa-user-plus"></i> Crear Cuenta'
+          return
+        }
+
+        try {
+          const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          })
+          const data = await res.json()
+
+          if (data.success) {
+            localStorage.setItem('crugus_user', JSON.stringify(data))
+            showSuccess('Cuenta creada! Redirigiendo...')
+            setTimeout(() => (window.location.href = '/'), 1000)
+          } else {
+            showError(data.error || 'Error al registrarse')
+          }
+        } catch (e) {
+          showError('Error de conexion')
+        }
+
+        btn.disabled = false
+        btn.innerHTML = '<i class="fas fa-user-plus"></i> Crear Cuenta'
+      }
+
+      // Check if already logged in
+      const saved = localStorage.getItem('crugus_user')
+      if (saved) {
+        window.location.href = '/'
+      }
+    </script>
+  </body>
+</html>
